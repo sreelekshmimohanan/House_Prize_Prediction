@@ -1,0 +1,125 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<div class="page-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <span class="breadcrumb"><a href="{% url 'index' %}">Home</a> / Add Properties</span>
+        <h3>Add Property</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="contact-page section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        {% if predicted_price %}
+          <div class="alert alert-info" style="border-radius: 10px; border: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; font-size: 18px; margin-bottom: 30px;">
+            <i class="fa fa-calculator" style="margin-right: 10px;"></i>
+            <strong>Predicted Price: ₹{{ predicted_price }}</strong> <br>
+            <small>Based on your property details</small>
+          </div>
+        {% endif %}
+        
+        <div style="background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 40px; margin-bottom: 30px;">
+          <h4 style="text-align: center; margin-bottom: 30px; color: #2a2a2a;"><i class="fa fa-home" style="color: #f35525;"></i> Property Details</h4>
+          
+          <form id="contact-form" action="{% url 'add_properties' %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <fieldset style="margin-bottom: 20px;">
+                  <label for="area_type" style="font-weight: bold; color: #555;"><i class="fa fa-building" style="color: #f35525; margin-right: 5px;"></i>Area Type</label>
+                  <select name="area_type" id="area_type" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                    {% for option in area_type_options %}
+                      <option value="{{ option }}" {% if form_data.area_type == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                  </select>
+                </fieldset>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <fieldset style="margin-bottom: 20px;">
+                  <label for="total_sqft" style="font-weight: bold; color: #555;"><i class="fa fa-expand" style="color: #f35525; margin-right: 5px;"></i>Total Sqft</label>
+                  <input type="number" step="0.01" name="total_sqft" id="total_sqft" placeholder="Total Sqft" value="{{ form_data.total_sqft|default:'' }}" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                </fieldset>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <fieldset style="margin-bottom: 20px;">
+                  <label for="bath" style="font-weight: bold; color: #555;"><i class="fa fa-bath" style="color: #f35525; margin-right: 5px;"></i>Bath</label>
+                  <input type="number" name="bath" id="bath" placeholder="Number of Bathrooms" value="{{ form_data.bath|default:'' }}" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                </fieldset>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <fieldset style="margin-bottom: 20px;">
+                  <label for="balcony" style="font-weight: bold; color: #555;"><i class="fa fa-sun" style="color: #f35525; margin-right: 5px;"></i>Balcony</label>
+                  <input type="number" name="balcony" id="balcony" placeholder="Number of Balconies" value="{{ form_data.balcony|default:'' }}" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                </fieldset>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <fieldset style="margin-bottom: 20px;">
+                  <label for="BHK" style="font-weight: bold; color: #555;"><i class="fa fa-bed" style="color: #f35525; margin-right: 5px;"></i>BHK</label>
+                  <input type="number" name="BHK" id="BHK" placeholder="BHK" value="{{ form_data.BHK|default:'' }}" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                </fieldset>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <fieldset style="margin-bottom: 20px;">
+                  <label for="HALL_KITCHEN" style="font-weight: bold; color: #555;"><i class="fa fa-utensils" style="color: #f35525; margin-right: 5px;"></i>Hall Kitchen</label>
+                  <select name="HALL_KITCHEN" id="HALL_KITCHEN" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                    {% for option in hall_kitchen_options %}
+                      <option value="{{ option }}" {% if form_data.HALL_KITCHEN == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                  </select>
+                </fieldset>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <fieldset style="margin-bottom: 20px;">
+                  <label for="location_new" style="font-weight: bold; color: #555;"><i class="fa fa-map-marker" style="color: #f35525; margin-right: 5px;"></i>Location</label>
+                  <select name="location_new" id="location_new" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                    {% for option in location_options %}
+                      <option value="{{ option }}" {% if form_data.location_new == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                  </select>
+                </fieldset>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <fieldset style="margin-bottom: 20px;">
+                  <label for="price" style="font-weight: bold; color: #555;"><i class="fa fa-rupee-sign" style="color: #f35525; margin-right: 5px;"></i>Price</label>
+                  <input type="number" step="0.01" name="price" id="price" placeholder="Price" value="{{ predicted_price|default:price|default:'' }}" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                </fieldset>
+              </div>
+              <div class="col-lg-12">
+                <fieldset style="margin-bottom: 30px;">
+                  <label for="availability" style="font-weight: bold; color: #555;"><i class="fa fa-calendar" style="color: #f35525; margin-right: 5px;"></i>Availability</label>
+                  <input type="text" name="availability" id="availability" placeholder="Availability" value="{{ form_data.availability|default:'' }}" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                </fieldset>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <fieldset>
+                  <button type="submit" name="predict" id="predict-btn" style="width: 100%; background: linear-gradient(135deg, #f35525 0%, #ff7b54 100%); color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;"><i class="fa fa-calculator" style="margin-right: 5px;"></i>Predict Price</button>
+                </fieldset>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <fieldset>
+                  <button type="submit" name="add_property" id="add-btn" style="width: 100%; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;"><i class="fa fa-plus" style="margin-right: 5px;"></i>Add Property</button>
+                </fieldset>
+              </div>
+            </div>
+          </form>
+        </div>
+        
+        {% if message %}
+          <div style="text-align: center; background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; border: 1px solid #c3e6cb;">
+            <i class="fa fa-check-circle" style="margin-right: 5px;"></i>{{ message }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}

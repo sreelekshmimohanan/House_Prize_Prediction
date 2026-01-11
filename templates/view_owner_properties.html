@@ -1,0 +1,62 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<div class="page-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <span class="breadcrumb"><a href="{% url 'index' %}">Home</a> / My Properties</span>
+        <h3>My Properties</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="properties section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12" style="text-align: center; margin-bottom: 30px;">
+        <a href="{% url 'add_properties' %}" style="background: linear-gradient(135deg, #f35525 0%, #ff7b54 100%); color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;"><i class="fa fa-plus" style="margin-right: 5px;"></i>Add New Property</a>
+      </div>
+      
+      {% if properties %}
+        {% for property in properties %}
+          <div class="col-lg-4 col-md-6">
+            <div class="item" style="border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 30px; position: relative;">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="property-content" style="padding: 20px;">
+                    <h5 style="color: #2a2a2a; margin-bottom: 10px;"><i class="fa fa-map-marker" style="color: #f35525;"></i> {{ property.location_new }}</h5>
+                    <span class="property-type" style="background: #f35525; color: white; padding: 5px 10px; border-radius: 5px; font-size: 12px;">{{ property.area_type }}</span>
+                    <div style="margin-top: 15px; line-height: 1.6;">
+                      <p><strong><i class="fa fa-home"></i> Total Sqft:</strong> {{ property.total_sqft }}</p>
+                      <p><strong><i class="fa fa-bed"></i> BHK:</strong> {{ property.BHK }}</p>
+                      <p><strong><i class="fa fa-bath"></i> Bath:</strong> {{ property.bath }}</p>
+                      <p><strong><i class="fa fa-sun"></i> Balcony:</strong> {{ property.balcony }}</p>
+                      <p><strong><i class="fa fa-utensils"></i> Hall Kitchen:</strong> {{ property.HALL_KITCHEN }}</p>
+                      <p><strong><i class="fa fa-rupee-sign"></i> Price:</strong> {% if property.price %}₹{{ property.price }} Lakhs{% else %}<span style="color: #f35525;">Not Set</span>{% endif %}</p>
+                      <p><strong><i class="fa fa-calendar"></i> Availability:</strong> {{ property.availability|default:"N/A" }}</p>
+                      <p><strong><i class="fa fa-clock"></i> Created:</strong> {{ property.created_at|date:"M d, Y" }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-lg-12">
+          <div style="text-align: center; padding: 50px;">
+            <i class="fa fa-home" style="font-size: 50px; color: #ccc;"></i>
+            <p style="font-size: 18px; color: #666; margin-top: 20px;">No properties added yet.</p>
+            <a href="{% url 'add_properties' %}" style="background: #f35525; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; margin-top: 15px; display: inline-block;">Add Your First Property</a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}
