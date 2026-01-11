@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <title>House Prize Prediction</title>
+    <title>House Price Prediction</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -41,20 +41,20 @@ https://templatemo.com/tm-591-villa-agency
   <div class="sub-header">
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 col-md-8">
+        <!-- <div class="col-lg-8 col-md-8">
           <ul class="info">
             <li><i class="fa fa-envelope"></i> info@company.com</li>
             <li><i class="fa fa-map"></i> Sunny Isles Beach, FL 33160</li>
           </ul>
-        </div>
-        <div class="col-lg-4 col-md-4">
+        </div> -->
+        <!-- <div class="col-lg-4 col-md-4">
           <ul class="social-links">
             <li><a href="#"><i class="fab fa-facebook"></i></a></li>
             <li><a href="https://x.com/minthu" target="_blank"><i class="fab fa-twitter"></i></a></li>
             <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
             <li><a href="#"><i class="fab fa-instagram"></i></a></li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -67,24 +67,34 @@ https://templatemo.com/tm-591-villa-agency
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="http://127.0.0.1:8000/index" class="logo">
-                        <h1>House</h1>
+                        <h1>PropertyPro</h1>
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-{% if request.session.logint %}
+                    {% if request.session.logint %}
                       <li><a href="http://127.0.0.1:8000/index" class="active">Home</a></li>
                       <li><a href="http://127.0.0.1:8000/viewuser">User</a></li>
                       <li><a href="http://127.0.0.1:8000/logout">Logout</a></li>
+                      {% elif request.session.owner_id %}
+                      <li><a href="http://127.0.0.1:8000/index" class="active">Home</a></li>
+                      <li><a href="http://127.0.0.1:8000/add_properties">Add Properties</a></li>
+                      <li><a href="http://127.0.0.1:8000/view_owner_properties">My Properties</a></li>
+                      <li><a href="http://127.0.0.1:8000/logout">Logout</a></li>
+                      <li></li>
                       {% elif request.session.uid %}
 
                        <li><a href="http://127.0.0.1:8000/index" class="active">Home</a></li>
+                        <li><a href="http://127.0.0.1:8000/view_properties">view properties</a></li>
                         <li><a href="http://127.0.0.1:8000/logout">Logout</a></li>
+                        <li></li>
                         {% else %}
 
                        <li><a href="http://127.0.0.1:8000/index" class="active">Home</a></li>
                       <li><a href="http://127.0.0.1:8000/reg">Register</a></li>
-                      <li><a href="http://127.0.0.1:8000/login"><i class="fa fa-calendar"></i> Login Now</a></li>
+                      <li><a href="http://127.0.0.1:8000/owner_reg">Owner Register</a></li>
+                      <li><a href="http://127.0.0.1:8000/login">Login</a></li>
+                      <li></li>
                       {% endif %}
                   </ul>   
                     <a class='menu-trigger'>

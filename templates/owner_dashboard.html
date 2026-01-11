@@ -1,0 +1,36 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<div class="page-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3>Welcome, {{ owner.name }} (Owner)</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h4>Owner Dashboard</h4>
+        <p>Email: {{ owner.email }}</p>
+        <p>Phone: {{ owner.phone }}</p>
+        {% if owner.address %}
+          <p>Address: {{ owner.address }}</p>
+        {% endif %}
+        {% if owner.license_number %}
+          <p>License Number: {{ owner.license_number }}</p>
+        {% endif %}
+        <!-- Add more owner-specific content here, like properties, etc. -->
+        <a href="{% url 'logout' %}" class="orange-button">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}

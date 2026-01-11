@@ -29,5 +29,11 @@ urlpatterns = [
     path('login/addlogin',views.addlogin, name='addlogin'),
     path('logout/',views.logout, name='logout'),
     path('viewuser/',views.viewuser, name='viewuser'),
+    path('owner_reg/', views.owner_reg, name='owner_reg'),
+    path('owner_reg/add_owner_reg', views.add_owner_reg, name='add_owner_reg'),
+    path('add_properties/', views.add_properties, name='add_properties'),
+    path('view_owner_properties/', views.view_owner_properties, name='view_owner_properties'),
+    path('view_properties/', views.view_properties, name='view_properties'),
+    path('predict_price/<int:property_id>/', views.predict_price, name='predict_price'),
     path('admin/', admin.site.urls),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

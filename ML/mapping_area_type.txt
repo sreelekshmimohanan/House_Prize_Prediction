@@ -1,0 +1,1 @@
+{'Super built-up  Area': 0, 'Built-up  Area': 1, 'Carpet  Area': 2, 'Plot  Area': 3}
