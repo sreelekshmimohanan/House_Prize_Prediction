@@ -95,6 +95,7 @@ def add_properties(request):
     import ast
     import joblib
     import numpy as np
+    import pandas as pd
     
     # Load mappings
     with open('ML/mapping_area_type.txt', 'r') as f:
@@ -112,6 +113,8 @@ def add_properties(request):
     hall_kitchen_options = list(hall_kitchen_mapping.keys())
     location_options = list(location_mapping.keys())
     
+    print("Scaler feature names:", scaler.feature_names_in_)
+    
     predicted_price = None
     form_data = {}
     price = form_data.get('price', '')
@@ -126,20 +129,30 @@ def add_properties(request):
             BHK = int(request.POST.get('BHK'))
             HALL_KITCHEN = request.POST.get('HALL_KITCHEN')
             location_new = request.POST.get('location_new')
+
+            print("Input Values:", area_type, total_sqft, bath, balcony, BHK, HALL_KITCHEN, location_new)
             
             # Encode categoricals
             area_type_encoded = area_type_mapping[area_type]
             hall_kitchen_encoded = hall_kitchen_mapping[HALL_KITCHEN]
             location_encoded = location_mapping[location_new]
+
+            print("Encoded Values:", area_type_encoded, hall_kitchen_encoded, location_encoded)
             
             # Prepare features in the order used in training: area_type, total_sqft, bath, balcony, BHK, HALL_KITCHEN, location_new
-            features = np.array([[area_type_encoded, total_sqft, bath, balcony, BHK, hall_kitchen_encoded, location_encoded]])
+            features = pd.DataFrame([[area_type_encoded, total_sqft, bath, balcony, BHK, hall_kitchen_encoded, location_encoded]], 
+                                   columns=['area_type', 'total_sqft', 'bath', 'balcony', 'BHK', 'HALL_KITCHEN', 'location_new'])
             
             # Scale features
             features_scaled = scaler.transform(features)
             
             # Predict
             predicted_price = model.predict(features_scaled)[0]
+
+            print("Predicted Price:", predicted_price)
+
+            if predicted_price < 1:
+                predicted_price = 1
             
             return render(request, 'add_properties.html', {
                 'area_type_options': area_type_options,
@@ -217,6 +230,7 @@ def predict_price(request, property_id):
     import ast
     import joblib
     import numpy as np
+    import pandas as pd
     
     # Load mappings
     with open('ML/mapping_area_type.txt', 'r') as f:
@@ -245,7 +259,8 @@ def predict_price(request, property_id):
     location_encoded = location_mapping[location_new]
     
     # Features
-    features = np.array([[area_type_encoded, total_sqft, bath, balcony, BHK, hall_kitchen_encoded, location_encoded]])
+    features = pd.DataFrame([[area_type_encoded, total_sqft, bath, balcony, BHK, hall_kitchen_encoded, location_encoded]], 
+                           columns=['area_type', 'total_sqft', 'bath', 'balcony', 'BHK', 'HALL_KITCHEN', 'location_new'])
     
     # Scale
     features_scaled = scaler.transform(features)
